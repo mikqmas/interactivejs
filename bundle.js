@@ -21505,10 +21505,18 @@
 	    _this.changeAmount = _this.changeAmount.bind(_this);
 	    _this.changeCurrency = _this.changeCurrency.bind(_this);
 	    _this.state = { tosym: '€', fromsym: '$' };
+	    (0, _jquery2.default)(document).ready(_this.mapInteraction);
 	    return _this;
 	  }
 	
 	  _createClass(Convert, [{
+	    key: 'mapInteraction',
+	    value: function mapInteraction() {
+	      (0, _jquery2.default)('#svgobject').hover(function (e) {
+	        debugger;
+	      });
+	    }
+	  }, {
 	    key: 'changeCurrency',
 	    value: function changeCurrency(e) {
 	      var from = void 0,
@@ -21568,7 +21576,17 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'amount_container' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'fromsym' },
+	            this.state.fromsym
+	          ),
 	          _react2.default.createElement('input', { className: 'amount', type: 'number', id: 'from_amount', placeholder: this.state.fromsym + '100', onInput: this.changeAmount }),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'tosym' },
+	            this.state.tosym
+	          ),
 	          _react2.default.createElement('input', { className: 'amount', type: 'number', id: 'to_amount', placeholder: this.state.tosym + '100', onInput: this.changeAmount })
 	        ),
 	        _react2.default.createElement(
@@ -21704,7 +21722,8 @@
 	            _react2.default.createElement('div', { className: 'ccw_selector_bg' }),
 	            _react2.default.createElement('div', { className: 'ccw_selector_arrows' })
 	          )
-	        )
+	        ),
+	        _react2.default.createElement('object', { id: 'svgobject', data: './imgs/worldLow.svg' })
 	      );
 	    }
 	  }]);

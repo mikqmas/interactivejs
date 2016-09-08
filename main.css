@@ -2,6 +2,23 @@ body{
   font-family: arial,sans-serif-light,sans-serif;
 }
 
+#svgdiv
+{
+  position: absolute;
+  top: 200px;
+  left: 0px;
+  width: 1000px;
+  height: 620px;
+}
+
+#svgobject {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 200px;
+  left: 0;
+}
+
 #root {
     border: 1px solid;
     padding: 20px;
@@ -17,6 +34,7 @@ body{
 
 .amount_container {
   display: flex;
+  position: relative;
   flex-direction: column;
   margin-right: 10px;
 }
@@ -28,13 +46,29 @@ body{
   border-top: 1px solid silver;
   border-radius: 2px;
   height: 28px;
-  margin: 0;
+  margin: 5px 0;
   overflow: hidden;
   padding: 1px 6px;
   text-align: right;
   line-height: 28px;
   color: #878787;
   font-size: medium;
+}
+
+#fromsym {
+  position: absolute;
+  top: 14px;
+  left: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#tosym {
+  position: absolute;
+  top: 56px;
+  left: 10px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -54,14 +88,15 @@ input[type=number]::-webkit-outer-spin-button {
   border-radius: 0 0 2px 2px;
   overflow: hidden;
   position: relative;
+  margin: 5px 0;
 }
 
 .currency {
   -webkit-appearance: button;
   border: none;
   font-size: 13px;
+  font-weight: 500;
   list-style: none;
-  margin: 0;
   outline: none;
   overflow: hidden;
   padding-left: 5px;

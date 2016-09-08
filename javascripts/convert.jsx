@@ -29,6 +29,15 @@ export default class Convert extends React.Component {
     this.changeAmount = this.changeAmount.bind(this);
     this.changeCurrency = this.changeCurrency.bind(this);
     this.state = {tosym: '€', fromsym:'$'};
+    $(document).ready(this.mapInteraction);
+  }
+
+  mapInteraction() {
+    $('#svgobject').hover(
+      function(e){
+        debugger;
+      }
+    )
   }
 
   changeCurrency(e) {
@@ -65,7 +74,9 @@ export default class Convert extends React.Component {
     return (
       <div className="input_container">
         <div className="amount_container">
+          <div id="fromsym">{this.state.fromsym}</div>
           <input className="amount" type="number" id="from_amount" placeholder={`${this.state.fromsym}100`} onInput={this.changeAmount}/>
+          <div id="tosym">{this.state.tosym}</div>
           <input className="amount" type="number" id="to_amount" placeholder={`${this.state.tosym}100`} onInput={this.changeAmount}/>
         </div>
 
@@ -106,6 +117,8 @@ export default class Convert extends React.Component {
             <div className="ccw_selector_arrows"></div>
           </div>
         </div>
+
+         <object id="svgobject" data="./imgs/worldLow.svg"></object>
       </div>
     );
   }
