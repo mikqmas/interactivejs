@@ -3,6 +3,7 @@ import $ from 'jquery';
 import fx from 'money';
 import Results from './results';
 import SYM from './symbols';
+import COL from './costofliving';
 
 $.getJSON(
   'http://api.fixer.io/latest',
@@ -32,12 +33,11 @@ export default class Convert extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.state = {tosym: '€', fromsym:'$'};
     this.selector = 'from';
-    $(document).ready(this.mapInteraction);
   }
 
   componentDidMount() {
     setTimeout(() => {
-      var svgDoc = document.getElementById('circle-svg').contentDocument;
+      var svgDoc = document.getElementById('map-svg').contentDocument;
       var circle = svgDoc.getElementById("my-circle");
       circle.addEventListener('click', this.handleClick);
     }, 100);
@@ -168,12 +168,6 @@ export default class Convert extends React.Component {
     to.value = isNaN(converted) ? "" : Math.round(converted * 1000) / 1000;
   }
 
-  interact(e) {
-    debugger;
-	  // var svgDoc = e.target.contentDocument;
-    // var circle = svgDoc.getElementById("my-circle");
-  }
-
   render() {
     return (
       <div>
@@ -229,7 +223,12 @@ export default class Convert extends React.Component {
         </div>
 
         <div id="map">
-          <object width="800" height="640" id="circle-svg" type="image/svg+xml" data="./imgs/worldLow.svg"></object>
+          <object width="800" height="640" id="map-svg" type="image/svg+xml" data="./imgs/worldLow.svg"></object>
+        </div>
+
+        <div id="results_container">
+          {Results id="from_results" currency={$('#from')[0].value}}
+          {Results id="to_results" currency={$('#to')[0].value}}
         </div>
       </div>
     );

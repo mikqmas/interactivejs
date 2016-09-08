@@ -1,10 +1,14 @@
 import React from 'react';
 
-export default class Result extends React.Component {
+export default class Info extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
   render(){
-    return (
+    return(
       <div>
-        {this.props.converted}
+        {this.props.currency}
       </div>
     )
   }

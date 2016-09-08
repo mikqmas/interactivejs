@@ -3,7 +3,6 @@ body{
 }
 
 #root {
-    border: 1px solid;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -59,7 +58,7 @@ body{
 .picker_container{
   position: absolute;
   top: 120px;
-  left: 40%;
+  left: 36.5%;
 }
 
 .picker_container::before {
@@ -73,10 +72,13 @@ body{
   cursor: pointer;
 }
 
+.picker:focus {
+  outline: none;
+}
+
 #from_picker {
   background-color: #aaa;
 }
-
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
