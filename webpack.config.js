@@ -1,8 +1,8 @@
 // webpack.config.js
 module.exports = {
-  entry: "./entry.jsx",
+  entry: "./javascripts/entry.jsx",
   output: {
-    path: "./javascripts",
+    path: "./",
     filename: "bundle.js",
   },
   module: {
