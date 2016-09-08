@@ -21504,17 +21504,124 @@
 	
 	    _this.changeAmount = _this.changeAmount.bind(_this);
 	    _this.changeCurrency = _this.changeCurrency.bind(_this);
+	    _this.changeSelector = _this.changeSelector.bind(_this);
+	    _this.handleClick = _this.handleClick.bind(_this);
 	    _this.state = { tosym: '€', fromsym: '$' };
+	    _this.selector = 'from';
 	    (0, _jquery2.default)(document).ready(_this.mapInteraction);
 	    return _this;
 	  }
 	
 	  _createClass(Convert, [{
-	    key: 'mapInteraction',
-	    value: function mapInteraction() {
-	      (0, _jquery2.default)('#svgobject').hover(function (e) {
-	        debugger;
-	      });
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      setTimeout(function () {
+	        var svgDoc = document.getElementById('circle-svg').contentDocument;
+	        var circle = svgDoc.getElementById("my-circle");
+	        circle.addEventListener('click', _this2.handleClick);
+	      }, 100);
+	    }
+	  }, {
+	    key: '_selectDropdown',
+	    value: function _selectDropdown(country) {
+	      var from = void 0,
+	          to = void 0,
+	          value = void 0;
+	      var dropdown = this.selector === 'from' ? document.getElementById("from") : document.getElementById("to");
+	      for (var i = 0; i < dropdown.length; i++) {
+	        if (dropdown.options[i].value === country) {
+	          dropdown.selectedIndex = i;
+	        }
+	      }
+	      if (this.selector === 'from') {
+	        this.setState({ fromsym: _symbols2.default[country] });
+	        value = parseInt((0, _jquery2.default)('#from_amount')[0].value);
+	        from = (0, _jquery2.default)('#from_amount')[0];
+	        to = (0, _jquery2.default)('#to_amount')[0];
+	      } else {
+	        this.setState({ tosym: _symbols2.default[country] });
+	        value = parseInt((0, _jquery2.default)('#to_amount')[0].value);
+	        from = (0, _jquery2.default)('#to_amount')[0];
+	        to = (0, _jquery2.default)('#from_amount')[0];
+	      }
+	      this._runConversion(from, to, value);
+	    }
+	  }, {
+	    key: 'changeSelector',
+	    value: function changeSelector(e) {
+	      if (e.target.value === "from") {
+	        this.selector = "from";
+	        document.getElementById('from_picker').style.backgroundColor = '#aaa';
+	        document.getElementById('to_picker').style.backgroundColor = 'whitesmoke';
+	      } else {
+	        this.selector = "to";
+	        document.getElementById('to_picker').style.backgroundColor = '#aaa';
+	        document.getElementById('from_picker').style.backgroundColor = 'whitesmoke';
+	      }
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(e) {
+	      switch (e.target.id) {
+	        case 'RU':
+	          this._selectDropdown('RUB');
+	          break;
+	        case 'CN':
+	          this._selectDropdown('CNY');
+	          break;
+	        case 'JP':
+	          this._selectDropdown('JPY');
+	          break;
+	        case 'KR':
+	          this._selectDropdown('KRW');
+	          break;
+	        case 'FI':
+	          this._selectDropdown('RUB');
+	          break;
+	        case 'CA':
+	          this._selectDropdown('CAD');
+	          break;
+	        case 'US':
+	          this._selectDropdown('USD');
+	          break;
+	        case 'GB':
+	          this._selectDropdown('GBP');
+	          break;
+	        case 'PH':
+	          this._selectDropdown('PHP');
+	          break;
+	        case 'BG':
+	          this._selectDropdown('GBN');
+	          break;
+	        case 'IL':
+	          this._selectDropdown('ILS');
+	          break;
+	        case 'BG':
+	          this._selectDropdown('BGN');
+	          break;
+	        case 'AT':
+	        case 'BE':
+	        case 'DE':
+	        case 'CY':
+	        case 'EE':
+	        case 'ES':
+	        case 'FR':
+	        case 'GR':
+	        case 'IE':
+	        case 'DE':
+	        case 'IT':
+	        case 'LT':
+	        case 'LU':
+	        case 'LV':
+	        case 'NL':
+	        case 'PT':
+	        case 'SI':
+	        case 'SK':
+	          this._selectDropdown('EUR');
+	          break;
+	      }
 	    }
 	  }, {
 	    key: 'changeCurrency',
@@ -21568,162 +21675,191 @@
 	      to.value = isNaN(converted) ? "" : Math.round(converted * 1000) / 1000;
 	    }
 	  }, {
+	    key: 'interact',
+	    value: function interact(e) {
+	      debugger;
+	      // var svgDoc = e.target.contentDocument;
+	      // var circle = svgDoc.getElementById("my-circle");
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'input_container' },
+	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'amount_container' },
+	          { className: 'input_container' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'fromsym' },
-	            this.state.fromsym
-	          ),
-	          _react2.default.createElement('input', { className: 'amount', type: 'number', id: 'from_amount', placeholder: this.state.fromsym + '100', onInput: this.changeAmount }),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'tosym' },
-	            this.state.tosym
-	          ),
-	          _react2.default.createElement('input', { className: 'amount', type: 'number', id: 'to_amount', placeholder: this.state.tosym + '100', onInput: this.changeAmount })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'currency_container' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'currency_border' },
+	            { className: 'amount_container' },
 	            _react2.default.createElement(
-	              'select',
-	              { className: 'currency', id: 'from', name: 'from', onChange: this.changeCurrency },
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'USD' },
-	                '$ USD'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'EUR' },
-	                '€ EUR'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'GBP' },
-	                '₤ GBP'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'CAD' },
-	                '$ CAD'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'BGN' },
-	                'в BGN'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'KRW' },
-	                '₩ KRW'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'JPY' },
-	                '¥ JPY'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'RUB' },
-	                'р RUB'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'PHP' },
-	                '₱ PHP'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'ILS' },
-	                '₪ ILS'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'CNY' },
-	                '¥ CNY'
-	              )
+	              'div',
+	              { id: 'fromsym' },
+	              this.state.fromsym
 	            ),
-	            _react2.default.createElement('div', { className: 'ccw_selector_bg' }),
-	            _react2.default.createElement('div', { className: 'ccw_selector_arrows' })
+	            _react2.default.createElement('input', { className: 'amount', type: 'number', id: 'from_amount', placeholder: this.state.fromsym + '100', onInput: this.changeAmount }),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'tosym' },
+	              this.state.tosym
+	            ),
+	            _react2.default.createElement('input', { className: 'amount', type: 'number', id: 'to_amount', placeholder: this.state.tosym + '100', onInput: this.changeAmount })
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'currency_border' },
+	            { className: 'currency_container' },
 	            _react2.default.createElement(
-	              'select',
-	              { className: 'currency', id: 'to', name: 'to', onChange: this.changeCurrency },
+	              'div',
+	              { className: 'currency_border' },
 	              _react2.default.createElement(
-	                'option',
-	                { value: 'EUR' },
-	                '€ EUR'
+	                'select',
+	                { className: 'currency', id: 'from', name: 'from', onChange: this.changeCurrency },
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'USD' },
+	                  '$ USD'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'EUR' },
+	                  '€ EUR'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'GBP' },
+	                  '₤ GBP'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'CAD' },
+	                  '$ CAD'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'BGN' },
+	                  'в BGN'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'KRW' },
+	                  '₩ KRW'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'JPY' },
+	                  '¥ JPY'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'RUB' },
+	                  'р RUB'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'PHP' },
+	                  '₱ PHP'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'ILS' },
+	                  '₪ ILS'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'CNY' },
+	                  '¥ CNY'
+	                )
 	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'USD' },
-	                '$ USD'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'GBP' },
-	                '₤ GBP'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'CAD' },
-	                '$ CAD'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'BGN' },
-	                'в BGN'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'KRW' },
-	                '₩ KRW'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'JPY' },
-	                '¥ JPY'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'RUB' },
-	                'р RUB'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'PHP' },
-	                '₱ PHP'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'ILS' },
-	                '₪ ILS'
-	              ),
-	              _react2.default.createElement(
-	                'option',
-	                { value: 'CNY' },
-	                '¥ CNY'
-	              )
+	              _react2.default.createElement('div', { className: 'ccw_selector_bg' }),
+	              _react2.default.createElement('div', { className: 'ccw_selector_arrows' })
 	            ),
-	            _react2.default.createElement('div', { className: 'ccw_selector_bg' }),
-	            _react2.default.createElement('div', { className: 'ccw_selector_arrows' })
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'currency_border' },
+	              _react2.default.createElement(
+	                'select',
+	                { className: 'currency', id: 'to', name: 'to', onChange: this.changeCurrency },
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'EUR' },
+	                  '€ EUR'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'USD' },
+	                  '$ USD'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'GBP' },
+	                  '₤ GBP'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'CAD' },
+	                  '$ CAD'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'BGN' },
+	                  'в BGN'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'KRW' },
+	                  '₩ KRW'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'JPY' },
+	                  '¥ JPY'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'RUB' },
+	                  'р RUB'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'PHP' },
+	                  '₱ PHP'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'ILS' },
+	                  '₪ ILS'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'CNY' },
+	                  '¥ CNY'
+	                )
+	              ),
+	              _react2.default.createElement('div', { className: 'ccw_selector_bg' }),
+	              _react2.default.createElement('div', { className: 'ccw_selector_arrows' })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'picker_container' },
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'from_picker', className: 'picker', value: 'from', onClick: this.changeSelector },
+	              'FROM'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'to_picker', className: 'picker', value: 'to', onClick: this.changeSelector },
+	              'TO'
+	            )
 	          )
 	        ),
-	        _react2.default.createElement('object', { id: 'svgobject', data: './imgs/worldLow.svg' })
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'map' },
+	          _react2.default.createElement('object', { width: '800', height: '640', id: 'circle-svg', type: 'image/svg+xml', data: './imgs/worldLow.svg' })
+	        )
 	      );
 	    }
 	  }]);
