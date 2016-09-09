@@ -21672,7 +21672,11 @@
 	
 	      var converted = _money2.default.convert(value, { from: from_sym, to: to_sym });
 	      to.value = isNaN(converted) ? "" : Math.round(converted * 1000) / 1000;
-	      this.setState({ from_amount: from.value, to_amount: to.value });
+	      if (from.id === "from_amount") {
+	        this.setState({ from_amount: from.value, to_amount: to.value });
+	      } else {
+	        this.setState({ from_amount: to.value, to_amount: from.value });
+	      }
 	    }
 	  }, {
 	    key: 'render',

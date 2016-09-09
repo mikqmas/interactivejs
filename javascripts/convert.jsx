@@ -164,7 +164,12 @@ export default class Convert extends React.Component {
     [from_sym, to_sym] = from.id === "from_amount" ? [$('#from')[0].value, $('#to')[0].value] : [$('#to')[0].value, $('#from')[0].value];
     let converted = fx.convert(value, {from: from_sym, to: to_sym});
     to.value = isNaN(converted) ? "" : Math.round(converted * 1000) / 1000;
-    this.setState({from_amount: from.value, to_amount: to.value});
+    if(from.id === "from_amount"){
+      this.setState({from_amount: from.value, to_amount: to.value});
+    }else{
+      this.setState({from_amount: to.value, to_amount: from.value});
+    }
+
   }
 
   render() {
