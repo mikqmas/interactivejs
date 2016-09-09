@@ -21520,8 +21520,11 @@
 	      setTimeout(function () {
 	        var svgDoc = document.getElementById('map-svg').contentDocument;
 	        var circle = svgDoc.getElementById("my-circle");
+	        while (!circle) {
+	          circle = svgDoc.getElementById("my-circle");
+	        }
 	        circle.addEventListener('click', _this2.handleMapClick);
-	      }, 100);
+	      }, 0);
 	      this.setState({ from_currency: 'USD', to_currency: 'EUR' });
 	    }
 	  }, {
