@@ -32390,7 +32390,7 @@
 	    city: 'Moscow',
 	    coffee: 152.23,
 	    mcdonalds: 284.73,
-	    nikes: 52385.17,
+	    nikes: 4859.59,
 	    rent: 52385.17,
 	    salary: 50102.32
 	  },
