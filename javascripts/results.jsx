@@ -30,7 +30,7 @@ export default class Results extends React.Component {
     $('#coffeelabel'+ this.info.city).html(`Coffee: ${coffeeCount}`);
     let width = "100px";
     if(coffeeCount > 500) {
-      $('#coffee'+ this.info.city).append(`<h3>A lot of coffee...</h3><img width="200px" class="icon coffee" src="/lumosity/imgs/coffee.png"/>`);
+      $('#coffee'+ this.info.city).append(`<h3>A lot of coffee...</h3><img width="200px" class="icon coffee" src="./imgs/coffee.png"/>`);
       return;
     }else if(coffeeCount > 100) {
       width = "30px";
@@ -43,7 +43,7 @@ export default class Results extends React.Component {
     }
 
     for(let i = 0; i < coffeeCount; i++){
-      $('#coffee'+ this.info.city).append(`<img width="${width}" class="icon coffee" src="/lumosity/imgs/coffee.png"/>`);
+      $('#coffee'+ this.info.city).append(`<img width="${width}" class="icon coffee" src="./imgs/coffee.png"/>`);
     }
   }
 
@@ -53,7 +53,7 @@ export default class Results extends React.Component {
     $('#mcdlabel'+ this.info.city).html(`Mcdonalds: ${mcdonaldsCount}`);
     let width = "100px";
     if(mcdonaldsCount > 500) {
-      $('#mcdonalds'+ this.info.city).append(`<h3>A lot of burgers...</h3><img width="200px" class="icon mcdonalds" src="/lumosity/imgs/burger.png"/>`);
+      $('#mcdonalds'+ this.info.city).append(`<h3>A lot of burgers...</h3><img width="200px" class="icon mcdonalds" src="./imgs/burger.png"/>`);
       return;
     }else if(mcdonaldsCount > 100) {
       width = "30px";
@@ -65,7 +65,7 @@ export default class Results extends React.Component {
       width = "90px";
     }
     for(let i = 0; i < mcdonaldsCount; i++){
-      $('#mcdonalds'+ this.info.city).append(`<img width="${width}" class="icon mcdonalds" src="/lumosity/imgs/burger.png"/>`);
+      $('#mcdonalds'+ this.info.city).append(`<img width="${width}" class="icon mcdonalds" src="./imgs/burger.png"/>`);
     }
   }
 
@@ -78,7 +78,7 @@ export default class Results extends React.Component {
     $('#nikelabel'+ this.info.city).html(`Nike: ${nikeCount}`);
     let width = "100px";
     if(nikeCount > 100) {
-      $('#nike'+ this.info.city).append(`<h3>A lot of Nikes...</h3><img width="200px" class="icon nike" src="/lumosity/imgs/nike.png"/>`);
+      $('#nike'+ this.info.city).append(`<h3>A lot of Nikes...</h3><img width="200px" class="icon nike" src="./imgs/nike.png"/>`);
       return
     }else if(nikeCount > 50) {
       width = "50px";
@@ -88,7 +88,7 @@ export default class Results extends React.Component {
       width = "90px";
     }
     for(let i = 0; i < nikeCount; i++){
-      $('#nike'+ this.info.city).append(`<img width="${width}" class="icon nike" src="/lumosity/imgs/nike.png"/>`);
+      $('#nike'+ this.info.city).append(`<img width="${width}" class="icon nike" src="./imgs/nike.png"/>`);
     }
   }
 
@@ -117,9 +117,9 @@ export default class Results extends React.Component {
         <h2 id={"nikelabel" + this.info.city}>Nike: </h2>
         <div id={"nike" + this.info.city}></div>
         <h2 id={"rentlabel" + this.info.city}>Monthly Rent: </h2>
-        <div id={"rent" + this.info.city}><img id={"rentImg"+ this.info.city} className="icon rent" src="/lumosity/imgs/rent.png"/></div>
+        <div id={"rent" + this.info.city}><img id={"rentImg"+ this.info.city} className="icon rent" src="./imgs/rent.png"/></div>
         <h2 id={"salarylabel" + this.info.city}>Monthly Salary: </h2>
-        <div id={"salary" + this.info.city}><img id={"salaryImg"+ this.info.city} className="icon salary" src="/lumosity/imgs/pay.png"/></div>
+        <div id={"salary" + this.info.city}><img id={"salaryImg"+ this.info.city} className="icon salary" src="./imgs/pay.png"/></div>
       </div>
     )
   }
