@@ -21517,10 +21517,19 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 	
+	      var svgDoc, circle;
 	      setTimeout(function () {
-	        var svgDoc = document.getElementById('map-svg').contentDocument;
-	        var circle = svgDoc.getElementById("my-circle");
-	        circle.addEventListener('click', _this2.handleMapClick);
+	        svgDoc = document.getElementById('map-svg').contentDocument;
+	        circle = svgDoc.getElementById("my-circle");
+	        if (circle === null) {
+	          setTimeout(function () {
+	            svgDoc = document.getElementById('map-svg').contentDocument;
+	            circle = svgDoc.getElementById("my-circle");
+	            circle.addEventListener('click', _this2.handleMapClick);
+	          }, 500);
+	        } else {
+	          circle.addEventListener('click', _this2.handleMapClick);
+	        }
 	      }, 500);
 	      this.setState({ from_currency: 'USD', to_currency: 'EUR' });
 	    }

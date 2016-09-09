@@ -37,10 +37,19 @@ export default class Convert extends React.Component {
   }
 
   componentDidMount() {
+    var svgDoc, circle;
     setTimeout(() => {
-      var svgDoc = document.getElementById('map-svg').contentDocument;
-      var circle = svgDoc.getElementById("my-circle");
-      circle.addEventListener('click', this.handleMapClick);
+      svgDoc = document.getElementById('map-svg').contentDocument;
+      circle = svgDoc.getElementById("my-circle");
+      if(circle === null){
+        setTimeout(() => {
+          svgDoc = document.getElementById('map-svg').contentDocument;
+          circle = svgDoc.getElementById("my-circle");
+          circle.addEventListener('click', this.handleMapClick);
+        },500)
+      }else {
+        circle.addEventListener('click', this.handleMapClick);
+      }
     }, 500);
     this.setState({from_currency: 'USD', to_currency: 'EUR'});
   }
