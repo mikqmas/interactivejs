@@ -21,7 +21,7 @@ export default class Results extends React.Component {
     this._setMcd();
     this._setNike();
     this._setRent();
-    // this._setPay();
+    this._setSalary();
   }
 
   _setCoffee(){
@@ -71,7 +71,7 @@ export default class Results extends React.Component {
 
   _setNike(){
     $('#nike'+ this.info.city).empty();
-    let nikeCount = Math.round(this.state.amount / this.info.nikes * 100) / 100;
+    let nikeCount = Math.round(this.state.amount / this.info.nikes * 10) / 10;
     if(nikeCount > 1){
       nikeCount = Math.round(this.state.amount / this.info.nikes);
     }
@@ -94,11 +94,16 @@ export default class Results extends React.Component {
 
   _setRent(){
     let rentCount = Math.round(this.state.amount / this.info.rent * 100) / 100;
-    if(rentCount > 1){
+    let width = rentCount < 1 ? rentCount * 200 : 200;
+    $('#rentImg' + this.info.city).css("width", `${width}px`);
+    $('#rentlabel'+ this.info.city).html(`Monthly Rent: ${rentCount}`);
+  }
 
-    }
-    $('#rentlabel'+ this.info.city).html(`Rent: ${rentCount}`);
-
+  _setSalary(){
+    let salaryCount = Math.round(this.state.amount / this.info.salary * 100) / 100;
+    let width = salaryCount < 1 ? salaryCount * 200 : 200;
+    $('#salaryImg' + this.info.city).css("width", `${width}px`);
+    $('#salarylabel'+ this.info.city).html(`Monthly Salary: ${salaryCount}`);
   }
 
   render(){
@@ -111,10 +116,10 @@ export default class Results extends React.Component {
         <div id={"mcdonalds" + this.info.city}></div>
         <h2 id={"nikelabel" + this.info.city}>Nike: </h2>
         <div id={"nike" + this.info.city}></div>
-        <h2 id={"rentlabel" + this.info.city}>Rent: </h2>
-        <div id={"rent" + this.info.city} style={{position: "relative"}}><div className="pie" id={"pie"+ this.info.city}></div><img width="200px" className="icon rent" src="../imgs/rent.png"/></div>
-        <h2 id={"salarylabel" + this.info.city}>Salary: </h2>
-        <div id={"salary" + this.info.city}></div>
+        <h2 id={"rentlabel" + this.info.city}>Monthly Rent: </h2>
+        <div id={"rent" + this.info.city}><img id={"rentImg"+ this.info.city} className="icon rent" src="../imgs/rent.png"/></div>
+        <h2 id={"salarylabel" + this.info.city}>Monthly Salary: </h2>
+        <div id={"salary" + this.info.city}><img id={"salaryImg"+ this.info.city} className="icon salary" src="../imgs/pay.png"/></div>
       </div>
     )
   }

@@ -32181,7 +32181,7 @@
 	      this._setMcd();
 	      this._setNike();
 	      this._setRent();
-	      // this._setPay();
+	      this._setSalary();
 	    }
 	  }, {
 	    key: '_setCoffee',
@@ -32234,7 +32234,7 @@
 	    key: '_setNike',
 	    value: function _setNike() {
 	      (0, _jquery2.default)('#nike' + this.info.city).empty();
-	      var nikeCount = Math.round(this.state.amount / this.info.nikes * 100) / 100;
+	      var nikeCount = Math.round(this.state.amount / this.info.nikes * 10) / 10;
 	      if (nikeCount > 1) {
 	        nikeCount = Math.round(this.state.amount / this.info.nikes);
 	      }
@@ -32258,8 +32258,17 @@
 	    key: '_setRent',
 	    value: function _setRent() {
 	      var rentCount = Math.round(this.state.amount / this.info.rent * 100) / 100;
-	      if (rentCount > 1) {}
-	      (0, _jquery2.default)('#rentlabel' + this.info.city).html('Rent: ' + rentCount);
+	      var width = rentCount < 1 ? rentCount * 200 : 200;
+	      (0, _jquery2.default)('#rentImg' + this.info.city).css("width", width + 'px');
+	      (0, _jquery2.default)('#rentlabel' + this.info.city).html('Monthly Rent: ' + rentCount);
+	    }
+	  }, {
+	    key: '_setSalary',
+	    value: function _setSalary() {
+	      var salaryCount = Math.round(this.state.amount / this.info.salary * 100) / 100;
+	      var width = salaryCount < 1 ? salaryCount * 200 : 200;
+	      (0, _jquery2.default)('#salaryImg' + this.info.city).css("width", width + 'px');
+	      (0, _jquery2.default)('#salarylabel' + this.info.city).html('Monthly Salary: ' + salaryCount);
 	    }
 	  }, {
 	    key: 'render',
@@ -32293,20 +32302,23 @@
 	        _react2.default.createElement(
 	          'h2',
 	          { id: "rentlabel" + this.info.city },
-	          'Rent: '
+	          'Monthly Rent: '
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: "rent" + this.info.city, style: { position: "relative" } },
-	          _react2.default.createElement('div', { className: 'pie', id: "pie" + this.info.city }),
-	          _react2.default.createElement('img', { width: '200px', className: 'icon rent', src: '../imgs/rent.png' })
+	          { id: "rent" + this.info.city },
+	          _react2.default.createElement('img', { id: "rentImg" + this.info.city, className: 'icon rent', src: '../imgs/rent.png' })
 	        ),
 	        _react2.default.createElement(
 	          'h2',
 	          { id: "salarylabel" + this.info.city },
-	          'Salary: '
+	          'Monthly Salary: '
 	        ),
-	        _react2.default.createElement('div', { id: "salary" + this.info.city })
+	        _react2.default.createElement(
+	          'div',
+	          { id: "salary" + this.info.city },
+	          _react2.default.createElement('img', { id: "salaryImg" + this.info.city, className: 'icon salary', src: '../imgs/pay.png' })
+	        )
 	      );
 	    }
 	  }]);
