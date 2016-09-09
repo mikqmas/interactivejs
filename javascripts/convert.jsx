@@ -3,7 +3,7 @@ import $ from 'jquery';
 import fx from 'money';
 import Results from './results';
 import SYM from './symbols';
-import COL from './costofliving';
+
 
 $.getJSON(
   'http://api.fixer.io/latest',
@@ -30,8 +30,9 @@ export default class Convert extends React.Component {
     this.changeAmount = this.changeAmount.bind(this);
     this.changeCurrency = this.changeCurrency.bind(this);
     this.changeSelector = this.changeSelector.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.state = {tosym: '€', fromsym:'$'};
+    this.handleMapClick = this.handleMapClick.bind(this);
+    this.state = {tosym: '€', fromsym:'$', from_currency: '', to_currency: '',
+                  from_amount: 0, to_amount: 0};
     this.selector = 'from';
   }
 
@@ -39,8 +40,9 @@ export default class Convert extends React.Component {
     setTimeout(() => {
       var svgDoc = document.getElementById('map-svg').contentDocument;
       var circle = svgDoc.getElementById("my-circle");
-      circle.addEventListener('click', this.handleClick);
+      circle.addEventListener('click', this.handleMapClick);
     }, 100);
+    this.setState({from_currency: 'USD', to_currency: 'EUR'});
   }
 
   _selectDropdown(country){
@@ -51,18 +53,7 @@ export default class Convert extends React.Component {
            dropdown.selectedIndex = i;
        }
      }
-     if(this.selector === 'from'){
-       this.setState({fromsym: SYM[country]});
-       value = parseInt($('#from_amount')[0].value);
-       from = $('#from_amount')[0];
-       to = $('#to_amount')[0];
-     }else {
-       this.setState({tosym: SYM[country]});
-       value = parseInt($('#to_amount')[0].value);
-       from = $('#to_amount')[0];
-       to = $('#from_amount')[0];
-     }
-     this._runConversion(from, to, value);
+     this.changeCurrency(country);
   }
 
   changeSelector(e){
@@ -77,7 +68,7 @@ export default class Convert extends React.Component {
     }
   }
 
-  handleClick(e) {
+  handleMapClick(e) {
     switch(e.target.id){
       case 'RU':
         this._selectDropdown('RUB');
@@ -139,15 +130,22 @@ export default class Convert extends React.Component {
   }
 
   changeCurrency(e) {
-    let from, to, value;
-    if(e.target.name === 'from'){
-      this.setState({fromsym: SYM[e.target.value]});
-      value = parseInt($('#from_amount')[0].value);
+    let from, to, value, direction, country;
+    if(typeof e === "string"){
+      country = e;
+      direction = this.selector;
+      value = direction === "from" ? parseInt($('#from_amount')[0].value) : parseInt($('#to_amount')[0].value);
+    }else {
+      country = e.target.value
+      direction = e.target.name;
+      value = direction === "from" ? parseInt($('#from_amount')[0].value) : parseInt($('#to_amount')[0].value);
+    }
+    if(direction === 'from'){
+      this.setState({fromsym: SYM[country], from_currency: country});
       from = $('#from_amount')[0];
       to = $('#to_amount')[0];
     }else {
-      this.setState({tosym: SYM[e.target.value]});
-      value = parseInt($('#to_amount')[0].value);
+      this.setState({tosym: SYM[country], to_currency: country});
       from = $('#to_amount')[0];
       to = $('#from_amount')[0];
     }
@@ -166,6 +164,7 @@ export default class Convert extends React.Component {
     [from_sym, to_sym] = from.id === "from_amount" ? [$('#from')[0].value, $('#to')[0].value] : [$('#to')[0].value, $('#from')[0].value];
     let converted = fx.convert(value, {from: from_sym, to: to_sym});
     to.value = isNaN(converted) ? "" : Math.round(converted * 1000) / 1000;
+    this.setState({from_amount: from.value, to_amount: to.value});
   }
 
   render() {
@@ -227,8 +226,8 @@ export default class Convert extends React.Component {
         </div>
 
         <div id="results_container">
-          {Results id="from_results" currency={$('#from')[0].value}}
-          {Results id="to_results" currency={$('#to')[0].value}}
+          <Results info={this.state.from_currency} amount={this.state.from_amount}/>
+          <Results info={this.state.to_currency} amount={this.state.to_amount}/>
         </div>
       </div>
     );

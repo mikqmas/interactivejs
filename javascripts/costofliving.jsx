@@ -55,7 +55,7 @@ module.exports = {
     rent: 23000.00,
     salary: 24365.28
   },
-  JYP: {
+  JPY: {
     city: 'Tokyo',
     coffee: 402.50,
     mcdonalds: 700.00,
