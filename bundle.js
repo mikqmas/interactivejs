@@ -21536,10 +21536,8 @@
 	  }, {
 	    key: '_selectDropdown',
 	    value: function _selectDropdown(country) {
-	      var from = void 0,
-	          to = void 0,
-	          value = void 0;
 	      var dropdown = this.selector === 'from' ? document.getElementById("from") : document.getElementById("to");
+	      var otherdropdown = this.selector === 'to' ? document.getElementById("from") : document.getElementById("to");
 	      for (var i = 0; i < dropdown.length; i++) {
 	        if (dropdown.options[i].value === country) {
 	          dropdown.selectedIndex = i;
@@ -21563,6 +21561,11 @@
 	  }, {
 	    key: 'handleMapClick',
 	    value: function handleMapClick(e) {
+	      var otherdropdown = this.selector === 'to' ? document.getElementById("from") : document.getElementById("to");
+	      if (otherdropdown.value.slice(0, 2) === e.target.id || ['AT', 'FI', 'BE', 'DE', 'CY', 'EE', 'ES', 'FR', 'GR', 'IE', 'DE', 'IT', 'LT', 'LU', 'LV', 'NL', 'PT', 'SI', 'SK'].includes(e.target.id) && otherdropdown.value === 'EUR') {
+	        alert("You can't convert from same currencies.");
+	        return;
+	      }
 	      switch (e.target.id) {
 	        case 'RU':
 	          this._selectDropdown('RUB');
@@ -21576,9 +21579,6 @@
 	        case 'KR':
 	          this._selectDropdown('KRW');
 	          break;
-	        case 'FI':
-	          this._selectDropdown('RUB');
-	          break;
 	        case 'CA':
 	          this._selectDropdown('CAD');
 	          break;
@@ -21591,9 +21591,6 @@
 	        case 'PH':
 	          this._selectDropdown('PHP');
 	          break;
-	        case 'BG':
-	          this._selectDropdown('GBN');
-	          break;
 	        case 'IL':
 	          this._selectDropdown('ILS');
 	          break;
@@ -21601,6 +21598,7 @@
 	          this._selectDropdown('BGN');
 	          break;
 	        case 'AT':
+	        case 'FI':
 	        case 'BE':
 	        case 'DE':
 	        case 'CY':
@@ -21629,15 +21627,39 @@
 	          to = void 0,
 	          value = void 0,
 	          direction = void 0,
-	          country = void 0;
+	          country = void 0,
+	          dropdown = void 0,
+	          otherdropdown = void 0;
 	      if (typeof e === "string") {
+	        var _ref = this.selector === 'from' ? [document.getElementById("from"), document.getElementById("to")] : [document.getElementById("to"), document.getElementById("from")];
+	
+	        var _ref2 = _slicedToArray(_ref, 2);
+	
+	        dropdown = _ref2[0];
+	        otherdropdown = _ref2[1];
+	
 	        country = e;
 	        direction = this.selector;
 	        value = direction === "from" ? parseInt((0, _jquery2.default)('#from_amount')[0].value) : parseInt((0, _jquery2.default)('#to_amount')[0].value);
 	      } else {
 	        country = e.target.value;
 	        direction = e.target.name;
+	
+	        var _ref3 = direction === 'from' ? [document.getElementById("from"), document.getElementById("to")] : [document.getElementById("to"), document.getElementById("from")];
+	
+	        var _ref4 = _slicedToArray(_ref3, 2);
+	
+	        dropdown = _ref4[0];
+	        otherdropdown = _ref4[1];
+	
 	        value = direction === "from" ? parseInt((0, _jquery2.default)('#from_amount')[0].value) : parseInt((0, _jquery2.default)('#to_amount')[0].value);
+	      }
+	      for (var i = 0; i < dropdown.length; i++) {
+	        if (otherdropdown.options[i].value === country) {
+	          otherdropdown.options[i].disabled = true;
+	        } else {
+	          otherdropdown.options[i].disabled = false;
+	        }
 	      }
 	      if (direction === 'from') {
 	        this.setState({ fromsym: _symbols2.default[country], from_currency: country });
@@ -21656,12 +21678,12 @@
 	      var from = void 0,
 	          to = void 0;
 	
-	      var _ref = e.target === (0, _jquery2.default)('#from_amount')[0] ? [(0, _jquery2.default)('#to_amount')[0], (0, _jquery2.default)('#from_amount')[0]] : [(0, _jquery2.default)('#from_amount')[0], (0, _jquery2.default)('#to_amount')[0]];
+	      var _ref5 = e.target === (0, _jquery2.default)('#from_amount')[0] ? [(0, _jquery2.default)('#to_amount')[0], (0, _jquery2.default)('#from_amount')[0]] : [(0, _jquery2.default)('#from_amount')[0], (0, _jquery2.default)('#to_amount')[0]];
 	
-	      var _ref2 = _slicedToArray(_ref, 2);
+	      var _ref6 = _slicedToArray(_ref5, 2);
 	
-	      to = _ref2[0];
-	      from = _ref2[1];
+	      to = _ref6[0];
+	      from = _ref6[1];
 	
 	      var value = parseInt(e.target.value);
 	      this._runConversion(from, to, value);
@@ -21672,12 +21694,12 @@
 	      var from_sym = void 0,
 	          to_sym = void 0;
 	
-	      var _ref3 = from.id === "from_amount" ? [(0, _jquery2.default)('#from')[0].value, (0, _jquery2.default)('#to')[0].value] : [(0, _jquery2.default)('#to')[0].value, (0, _jquery2.default)('#from')[0].value];
+	      var _ref7 = from.id === "from_amount" ? [(0, _jquery2.default)('#from')[0].value, (0, _jquery2.default)('#to')[0].value] : [(0, _jquery2.default)('#to')[0].value, (0, _jquery2.default)('#from')[0].value];
 	
-	      var _ref4 = _slicedToArray(_ref3, 2);
+	      var _ref8 = _slicedToArray(_ref7, 2);
 	
-	      from_sym = _ref4[0];
-	      to_sym = _ref4[1];
+	      from_sym = _ref8[0];
+	      to_sym = _ref8[1];
 	
 	      var converted = _money2.default.convert(value, { from: from_sym, to: to_sym });
 	      to.value = isNaN(converted) ? "" : Math.round(converted * 1000) / 1000;
@@ -21728,7 +21750,7 @@
 	                ),
 	                _react2.default.createElement(
 	                  'option',
-	                  { value: 'EUR' },
+	                  { value: 'EUR', disabled: true },
 	                  '€ EUR'
 	                ),
 	                _react2.default.createElement(
@@ -21793,7 +21815,7 @@
 	                ),
 	                _react2.default.createElement(
 	                  'option',
-	                  { value: 'USD' },
+	                  { value: 'USD', disabled: true },
 	                  '$ USD'
 	                ),
 	                _react2.default.createElement(

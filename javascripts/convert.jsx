@@ -55,8 +55,8 @@ export default class Convert extends React.Component {
   }
 
   _selectDropdown(country){
-    let from, to, value;
     const dropdown = this.selector === 'from' ? document.getElementById("from") : document.getElementById("to");
+    const otherdropdown = this.selector === 'to' ? document.getElementById("from") : document.getElementById("to");
     for(var i = 0;i < dropdown.length;i++){
        if(dropdown.options[i].value === country){
            dropdown.selectedIndex = i;
@@ -78,6 +78,13 @@ export default class Convert extends React.Component {
   }
 
   handleMapClick(e) {
+    const otherdropdown = this.selector === 'to' ? document.getElementById("from") : document.getElementById("to");
+    if(otherdropdown.value.slice(0,2) === e.target.id ||
+      (['AT','FI','BE','DE','CY','EE','ES','FR','GR','IE','DE','IT','LT','LU','LV','NL','PT','SI','SK'].includes(e.target.id) &&
+      otherdropdown.value === 'EUR')){
+      alert("You can't convert from same currencies.");
+      return;
+    }
     switch(e.target.id){
       case 'RU':
         this._selectDropdown('RUB');
@@ -91,9 +98,6 @@ export default class Convert extends React.Component {
       case 'KR':
         this._selectDropdown('KRW');
         break;
-      case 'FI':
-        this._selectDropdown('RUB');
-        break;
       case 'CA':
         this._selectDropdown('CAD');
         break;
@@ -106,9 +110,6 @@ export default class Convert extends React.Component {
       case 'PH':
         this._selectDropdown('PHP');
         break;
-      case 'BG':
-        this._selectDropdown('GBN');
-        break;
       case 'IL':
         this._selectDropdown('ILS');
         break;
@@ -116,6 +117,7 @@ export default class Convert extends React.Component {
         this._selectDropdown('BGN');
         break;
       case 'AT':
+      case 'FI':
       case 'BE':
       case 'DE':
       case 'CY':
@@ -139,16 +141,25 @@ export default class Convert extends React.Component {
   }
 
   changeCurrency(e) {
-    let from, to, value, direction, country;
+    let from, to, value, direction, country, dropdown, otherdropdown;
     if(typeof e === "string"){
+      [dropdown, otherdropdown] = this.selector === 'from' ? [document.getElementById("from"), document.getElementById("to")] : [document.getElementById("to"), document.getElementById("from")];
       country = e;
       direction = this.selector;
       value = direction === "from" ? parseInt($('#from_amount')[0].value) : parseInt($('#to_amount')[0].value);
     }else {
       country = e.target.value
       direction = e.target.name;
+      [dropdown, otherdropdown] = direction === 'from' ? [document.getElementById("from"), document.getElementById("to")] : [document.getElementById("to"), document.getElementById("from")];
       value = direction === "from" ? parseInt($('#from_amount')[0].value) : parseInt($('#to_amount')[0].value);
     }
+    for(var i = 0;i < dropdown.length;i++){
+       if(otherdropdown.options[i].value === country){
+         otherdropdown.options[i].disabled = true;
+       }else{
+         otherdropdown.options[i].disabled = false;
+       }
+     }
     if(direction === 'from'){
       this.setState({fromsym: SYM[country], from_currency: country});
       from = $('#from_amount')[0];
@@ -196,7 +207,7 @@ export default class Convert extends React.Component {
             <div className="currency_border">
               <select className="currency" id="from" name="from" onChange={this.changeCurrency}>
                 <option value="USD">&#36; USD</option>
-                <option value="EUR">&#8364; EUR</option>
+                <option value="EUR" disabled>&#8364; EUR</option>
                 <option value="GBP">&#8356; GBP</option>
                 <option value="CAD">&#36; CAD</option>
                 <option value="BGN">&#1074; BGN</option>
@@ -214,7 +225,7 @@ export default class Convert extends React.Component {
             <div className="currency_border">
               <select className="currency" id="to" name="to" onChange={this.changeCurrency}>
                 <option value="EUR">&#8364; EUR</option>
-                <option value="USD">&#36; USD</option>
+                <option value="USD" disabled>&#36; USD</option>
                 <option value="GBP">&#8356; GBP</option>
                 <option value="CAD">&#36; CAD</option>
                 <option value="BGN">&#1074; BGN</option>
