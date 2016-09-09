@@ -71,6 +71,7 @@ h3 {
 .picker_container{
   position: absolute;
   top: 120px;
+  left: 42%;
 }
 
 .picker_container::before {
