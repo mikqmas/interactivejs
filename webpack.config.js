@@ -1,9 +1,14 @@
 // webpack.config.js
+
+var webpack = require('webpack');
+
+var PROD = JSON.parse(process.env.PROD_ENV || '0');
+
 module.exports = {
   entry: "./javascripts/entry.jsx",
   output: {
     path: "./",
-    filename: "bundle.js",
+    filename: PROD ? 'bundle.min.js' : 'bundle.js'
   },
   module: {
     loaders: [
@@ -20,5 +25,11 @@ module.exports = {
   devtool: 'source-map',
   resolve: {
     extensions: ["", ".js", ".jsx" ]
-  }
+  },
+  plugins: PROD ? [
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      compress: { warnings: false }
+    })
+  ] : []
 };
