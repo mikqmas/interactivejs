@@ -27,6 +27,11 @@ module.exports = {
     extensions: ["", ".js", ".jsx" ]
   },
   plugins: PROD ? [
+    new webpack.DefinePlugin({
+      'process.env':{
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
       compress: { warnings: false }
