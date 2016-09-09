@@ -39,6 +39,9 @@ export default class Convert extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       var svgDoc = document.getElementById('map-svg').contentDocument;
+      while(!svgDoc){
+        svgDoc = document.getElementById('map-svg').contentDocument;
+      }
       var circle = svgDoc.getElementById("my-circle");
       while(!circle){
         circle = svgDoc.getElementById("my-circle");
