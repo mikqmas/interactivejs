@@ -1,6 +1,7 @@
 # Interactive JS 
 
 ## Live Version: https://mikqmas.github.io/interactivejs/
+Using updated https/SSL
 
 Uses Money.js wrapper for handling currency conversion.
 
