@@ -6,7 +6,7 @@ import SYM from './symbols';
 
 
 $.getJSON(
-  'http://api.fixer.io/latest',
+  'https://api.fixer.io/latest',
   function(data) {
     if ( typeof fx !== "undefined" && fx.rates ) {
       fx.rates = data.rates;
